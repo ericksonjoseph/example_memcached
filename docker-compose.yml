@@ -1,8 +1,8 @@
-
 web:
     image: richarvey/nginx-php-fpm
     volumes:
         - ./:/global
+        - ./start.sh:/start.sh
 
     ports: 
         - "8080:80"
