@@ -1,0 +1,15 @@
+
+web:
+    image: richarvey/nginx-php-fpm
+    volumes:
+        - ./:/global
+
+    ports: 
+        - "8080:80"
+    links:
+        - cache
+
+cache:
+    image: memcached
+    ports:
+        - "11211:11211"
