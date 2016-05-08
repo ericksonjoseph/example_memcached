@@ -1,11 +1,20 @@
 <?php
 
+/**
+ * MemcachedCLI
+ * This class was literally created for the getAllKeys method. The PHP Memcached librarys
+ * getAllKeys method doesnt seem to be working in version 1.4.25
+ * 
+ * @author Erickson Joseph <erickson1.joseph@gmail.com> 
+ */
 class MemcachedCLI {
 
     /**
      * Number of items to retrieve from each slab (0 = all)
      */
     const CACHEDUMP_LIMIT = 0;
+
+    const DEBUG_MODE = false;
 
     public function __construct($host, $port)
     {
@@ -15,6 +24,7 @@ class MemcachedCLI {
 
     /**
      * Get all stored keys in memecache
+     * Be careful of stale keys
      *
      * @access public
      * @return array
@@ -41,6 +51,7 @@ class MemcachedCLI {
      */
     private function getAllSlabIDs()
     {
+        $keys = [];
         $items = $this->send('stats items');
         foreach ($items as $i => $item) {
             $parts = explode(':', $item);
@@ -93,6 +104,20 @@ class MemcachedCLI {
         $cmd = sprintf('echo "%s" | nc %s %s', $command, $this->host, $this->port);
         exec($cmd, $response);
 
+        if (self::DEBUG_MODE) {
+            $this->debug('Memcached Server Response:', $response);
+        }
+
         return $response;
+    }
+
+    public static function debug($prepend, $msg = '')
+    {
+        if (is_array($msg)){
+            echo $prepend;
+            echo '<pre>' . print_r($msg, true) . '</pre>';
+            return;
+        }
+        echo "$prepend $msg<br>";
     }
 }
