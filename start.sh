@@ -66,7 +66,13 @@ echo "export TERM=xterm" >> ~/.bashrc
 cp /global/provision/default.conf /etc/nginx/sites-enabled/default.conf
 # the DEBS env variable doesnt seem to be working
 sudo apt-get update
-sudo apt-get install -y php5-memcached telnet tmux htop
+sudo apt-get install -y php5-memcached telnet tmux htop php5-dev
+cp /global/provision/redis.ini /etc/php5/fpm/conf.d/
+cp /global/provision/redis.ini /etc/php5/cli/conf.d/
+cd /global/provision/phpredis
+phpize
+./configure
+make && make install
 # Back to regular start.sh
 
 # Again set the right permissions (needed when mounting from a volume)
