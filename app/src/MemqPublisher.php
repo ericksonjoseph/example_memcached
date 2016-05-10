@@ -14,6 +14,7 @@ class MemqPublisher extends Publisher {
 
     public function enqueue($queue, $data)
     {
+        parent::enqueue($queue, $data);
         return $this->driver->enqueue($queue, $data);
     }
 }

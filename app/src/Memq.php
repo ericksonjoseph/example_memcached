@@ -46,11 +46,15 @@
 			
 			if($after_id === FALSE && $till_id === FALSE) {
 				$tail = $mem->get($queue."_tail");
+                self::log("tail = $tail");
 				if(($id = $mem->increment($queue."_head")) === FALSE){
+                    self::log("head = $id");
 					return FALSE;
                 }
 
-				if($id <= $tail) {
+                self::log("id = $id &tail = $tail");
+				if($id-1 <= $tail) {
+                    self::log("Returning... " . $queue."_".($id-1));
 					return $mem->get($queue."_".($id-1));
 				}
 				else {

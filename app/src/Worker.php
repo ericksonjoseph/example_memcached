@@ -6,20 +6,22 @@ abstract class Worker extends Object {
 
     const DELAY = 0;
 
-    public $name = 'abstract';
-
     public $type = 'worker';
 
     abstract public function dequeue($queue);
+
+    protected function postProcessDequeuedData(&$data)
+    {
+        $data = json_decode($data, true);
+        $this->log("Popped {$data['_id']}");
+        echo print_r(serialize($data), true) . PHP_EOL;
+    }
 
     public function subscribe($queue)
     {
         while (true){
             //echo ".\n\r";
             $popped = $this->dequeue($queue);
-            if ($popped){
-                echo print_r($popped, true) . PHP_EOL;
-            }
             usleep(self::DELAY);
         }
     }

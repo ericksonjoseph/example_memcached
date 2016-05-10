@@ -6,6 +6,14 @@ require APP_ROOT . 'src/MemqPublisher.php';
 
 $Publisher = new MemqPublisher();
 
-$data_for_queue = '{class:"BatchProcessor", transactions: [1,2,3]';
+$count = 1;
+if (isset($argv[1])){
+    $count = $argv[1];
+}
 
-$Publisher->enqueueMany('transactions', $data_for_queue, 5);
+$data_for_queue = [
+    'class' =>"BatchProcessor",
+    'transactions' => [1,2,3]
+];
+
+$Publisher->enqueueMany('transactions', $data_for_queue, $count);

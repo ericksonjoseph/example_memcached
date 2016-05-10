@@ -6,11 +6,18 @@ abstract class Publisher extends Object {
 
     const DELAY = 0;
 
-    public $name = 'abstract';
-
     public $type = 'publisher';
 
-    abstract public function enqueue($queue, $data);
+    public function enqueue(&$queue, array &$data)
+    {
+        $dte = new \DateTime();
+        $ts = $dte->getTimestamp();
+        $id = uniqid($ts, true);
+        $this->log($id, "$this->name.$this->type.assigned_ids.log");
+        $data['_id'] = $id;
+        $data = json_encode($data);
+        return true;
+    }
 
     public function enqueueMany($queue, $data, $count){
 
@@ -18,7 +25,7 @@ abstract class Publisher extends Object {
 
         for ($i = 0; $i < $count; $i++){
             $p = $this->enqueue($queue, $data);
-            $this->log("Pushed $p");
+            //$this->log("Pushed $p");
             $this->debug("Pushed $p");
             $pushed[] = $p;
             usleep(self::DELAY);

@@ -14,6 +14,7 @@ class RedisPublisher extends Publisher {
 
     public function enqueue($queue, $data)
     {
+        parent::enqueue($queue, $data);
         return $this->driver->rpush($queue, $data);
     }
 }

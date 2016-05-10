@@ -36,7 +36,7 @@ class MemqWrapper {
     {
         if (MEMQ::is_empty($queue)){
             //$this->log("The queue $queue is empty");
-            return false;
+            //return false;
         }
 
         return MEMQ::dequeue($queue);

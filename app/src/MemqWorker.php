@@ -14,7 +14,11 @@ class MemqWorker extends Worker {
 
     public function dequeue($queue)
     {
-        return $this->driver->dequeue($queue);
+        $data = $this->driver->dequeue($queue);
+        if ($data){
+            $this->postProcessDequeuedData($data);
+        }
+        return $data;
     }
 }
 

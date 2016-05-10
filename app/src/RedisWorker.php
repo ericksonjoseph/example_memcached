@@ -4,6 +4,8 @@ require APP_ROOT . 'src/Worker.php';
 
 class RedisWorker extends Worker {
 
+    public $name = 'redis';
+
     public function __construct()
     {
         $this->driver = new Redis();
@@ -12,7 +14,11 @@ class RedisWorker extends Worker {
 
     public function dequeue($queue)
     {
-        return $this->driver->lpop($queue);
+        $data = $this->driver->lpop($queue);
+        if ($data){
+            $this->postProcessDequeuedData($data);
+        }
+        return $data;
     }
 }
 

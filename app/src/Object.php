@@ -12,7 +12,7 @@ class Object {
         return true;
     }
 
-    protected function log($message)
+    protected function log($message, $file = null)
     {
         if (!$this->isValid() || !is_string($message)){
             throw \RuntimeException('Please provide a proper name & type & message');
@@ -20,13 +20,19 @@ class Object {
 
         $message = $this->formatMessage($message);
 
+        // Set filename
+        $filename = $this->name . '.' . $this->type .'.log';
+        if ($file) {
+            $filename = $file;
+        }
+
         if (!is_dir(LOG_DIR)){
             if(!mkdir(LOG_DIR)){
                 throw new \RuntimeException('Unable to create the logging directory');
             }
         }
 
-        return file_put_contents(LOG_DIR . $this->name . '.' . $this->type .'.log', $message, FILE_APPEND);
+        return file_put_contents(LOG_DIR . $filename, $message, FILE_APPEND);
     }
 
     private function formatMessage($message)
