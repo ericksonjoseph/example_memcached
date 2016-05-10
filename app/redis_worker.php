@@ -1,19 +1,10 @@
+#!/bin/bash
 <?php
 
-/* Connect to memcached */
-$redis = new Redis();
-$redis->connect('redis', 6379);
+/* Dependencies */
+require '/global/app/bootstrap.php';
+require APP_ROOT . 'src/RedisWorker.php';
 
-/* SETUP */
-$queue = 'transactions';
+$Worker = new RedisWorker();
 
-/* Get data from the queue */
-while (true){
-    echo ".\n\r";
-    $popped = $redis->blpop($queue, 0);
-    //$popped = $redis->lpop($queue);
-    if ($popped){
-        echo print_r($popped, true) . "\n\r";
-    }
-    usleep(100000);
-}
+$Worker->subscribe('transactions');

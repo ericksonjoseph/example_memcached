@@ -1,19 +1,9 @@
+#!/bin/bash
 <?php
 
-/* Dependencies */
-require dirname(__FILE__) . '/src/MemqWrapper.php';
+require '/global/app/bootstrap.php';
+require APP_ROOT . 'src/MemqWorker.php';
 
-/* Connect to memcached */
-$memq = new MemqWrapper();
+$Worker = new MemqWorker();
 
-/* SETUP */
-$queue = 'transactions';
-
-/* Get data from the queue */
-while (true){
-    $popped = $memq->dequeue($queue);
-    if ($popped){
-        echo print_r($popped, true) . "\n\r";
-    }
-    usleep(1000);
-}
+$Worker->subscribe('transactions');

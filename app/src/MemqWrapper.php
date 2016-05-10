@@ -1,5 +1,7 @@
 <?php
 
+require_once '/global/app/bootstrap.php';
+
 // Required env variables for memq
 define('MEMQ_POOL', 'cache:11211');
 define('MEMQ_TTL', 0);
@@ -27,22 +29,17 @@ class MemqWrapper {
 
     public function enqueue($queue, $data)
     {
-        $x = MEMQ::enqueue($queue, $data);
-
-        $this->debug("pushed to queue $queue", $x);
-
-        return $x;
+        return MEMQ::enqueue($queue, $data);
     }
 
     public function dequeue($queue)
     {
         if (MEMQ::is_empty($queue)){
-            $this->log("The queue $queue is empty");
+            //$this->log("The queue $queue is empty");
             return false;
         }
 
-        $x = MEMQ::dequeue($queue);
-        return $x;
+        return MEMQ::dequeue($queue);
     }
 
     public function debug($prepend, $msg = '')
@@ -63,6 +60,6 @@ class MemqWrapper {
 
         $msg = "$message\n\r";
 
-        file_put_contents('memq.wrapper.log', $msg, FILE_APPEND);
+        file_put_contents(LOG_DIR . 'memq.wrapper.log', $msg, FILE_APPEND);
     }
 }
