@@ -46,18 +46,16 @@
 			
 			if($after_id === FALSE && $till_id === FALSE) {
 				$tail = $mem->get($queue."_tail");
-                self::log("tail = $tail");
 				if(($id = $mem->increment($queue."_head")) === FALSE){
-                    self::log("head = $id");
 					return FALSE;
                 }
 
-                self::log("id = $id &tail = $tail");
+                /* BUG #1 (for some reason we have to subtract 1 from the $id here */
 				if($id-1 <= $tail) {
-                    self::log("Returning... " . $queue."_".($id-1));
 					return $mem->get($queue."_".($id-1));
 				}
 				else {
+                    /* HUGE BUG (the decrement makes this function (as a whole) no atomic (jobs get popped twice)) */
 					$mem->decrement($queue."_head");
 					return FALSE;
 				}

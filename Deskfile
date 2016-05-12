@@ -1,3 +1,12 @@
 #!/bin/bash
 
 source ~/.desk/desks/docker.sh
+
+dex() {
+
+    if [ -z $1 ]; then
+        echo "Pass the container as the first arg. Example \"web\""
+    fi
+
+    docker exec -it examplequeues_$1_1 /bin/bash
+}

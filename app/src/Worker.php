@@ -13,7 +13,7 @@ abstract class Worker extends Object {
     protected function postProcessDequeuedData(&$data)
     {
         $data = json_decode($data, true);
-        $this->log("Popped {$data['_id']}");
+        $this->log("{$data['_id']}");
         echo print_r(serialize($data), true) . PHP_EOL;
     }
 
