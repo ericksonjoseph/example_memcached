@@ -1,7 +1,7 @@
 <?php
 
 $redis = new \Redis();
-$redis->connect('redis', 6379);
+$redis->connect('localhost', 6379);
 
 
 write('all Redis Keys:', $redis->keys('*'));

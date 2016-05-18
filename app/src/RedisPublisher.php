@@ -9,7 +9,7 @@ class RedisPublisher extends Publisher {
     public function __construct()
     {
         $this->driver = new Redis();
-        $this->driver->connect('redis', 6379);
+        $this->driver->pconnect('127.0.0.1', 6379);
     }
 
     public function enqueue($queue, $data)

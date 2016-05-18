@@ -2,7 +2,7 @@ web:
     image: richarvey/nginx-php-fpm
     volumes:
         - ./:/global
-        - ./start.sh:/start.sh
+        - ./provision/start.sh:/start.sh
 
     ports: 
         - "8080:80"
@@ -19,3 +19,6 @@ redis:
     image: redis
     ports: 
         - "6379:6379"
+    volumes:
+        - ./:/global
+        - ./provision/redis-entrypoint.sh:/entrypoint.sh
