@@ -1,16 +1,18 @@
 <?php
 
-$redis = new \Redis();
-$redis->connect('redis', 6379);
+require '/global/app/bootstrap.php';
+require APP_ROOT . 'src/RedisWorkerCluster.php';
+
+$redis = new RedisWorkerCluster();
 
 
-write('all Redis Keys:', $redis->keys('*'));
-write('transactions queue contents:', $redis->lrange('transactions', 0, -1));
+write('all Redis Keys:', $redis->driver->keys('*'));
+write('transactions queue contents:', $redis->driver->lrange('transactions', 0, -1));
 
 if (isset($_GET['delete'])){
     write('flushall:', $redis->flushall());
-    write('all Redis Keys:', $redis->keys('*'));
-    write('transactions queue contents:', $redis->lrange('transactions', 0, -1));
+    write('all Redis Keys:', $redis->driver->keys('*'));
+    write('transactions queue contents:', $redis->driver->lrange('transactions', 0, -1));
 }
 
 function write($prepend, $s){

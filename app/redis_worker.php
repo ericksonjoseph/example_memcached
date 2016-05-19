@@ -3,8 +3,8 @@
 
 /* Dependencies */
 require '/global/app/bootstrap.php';
-require APP_ROOT . 'src/RedisWorker.php';
+require APP_ROOT . 'src/RedisWorkerCluster.php';
 
-$Worker = new RedisWorker();
+$Worker = new RedisWorkerCluster();
 
 $Worker->subscribe('transactions');
