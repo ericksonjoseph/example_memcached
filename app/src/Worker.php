@@ -4,7 +4,7 @@ require APP_ROOT . 'src/Object.php';
 
 abstract class Worker extends Object {
 
-    const DELAY = 1000000;
+    const DELAY = 0;
 
     public $type = 'worker';
 
@@ -20,7 +20,7 @@ abstract class Worker extends Object {
     public function subscribe($queue)
     {
         while (true){
-            echo ".\n\r";
+            //echo ".\n\r";
             $popped = $this->dequeue($queue);
             usleep(self::DELAY);
         }

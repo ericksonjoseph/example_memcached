@@ -8,8 +8,7 @@ class RedisWorker extends Worker {
 
     public function __construct()
     {
-        $this->driver = new Redis();
-        $this->driver->pconnect('127.0.0.1', 6379);
+        $this->setupRedisDriver();
     }
 
     public function dequeue($queue)
@@ -19,6 +18,23 @@ class RedisWorker extends Worker {
             $this->postProcessDequeuedData($data);
         }
         return $data;
+    }
+
+    public function flushall()
+    {
+        $this->driver->flushall();
+    }
+
+    /**
+     * Setup redis driver
+     *
+     * @access private
+     * @return void
+     */
+    private function setupRedisDriver()
+    {
+        $this->driver = new Redis();
+        $this->driver->connect('127.0.0.1', 6379);
     }
 }
 

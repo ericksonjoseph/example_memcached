@@ -1,6 +1,5 @@
 #!/bin/bash
 
-clear
 sleep 0.5
 
 if [ -z $1 ]; then

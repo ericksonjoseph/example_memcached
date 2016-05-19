@@ -1,5 +1,9 @@
 export TERM=xterm
+
+# This PPA will allow you to install redis-server
+sudo add-apt-repository ppa:chris-lea/redis-server
 sudo apt-get update
+
 # Install all the stuff that usually comes in the containers
 sudo apt-get install nginx php5-fpm ruby-full redis-server -y
 
@@ -17,3 +21,4 @@ cp /global/provision/default /etc/nginx/sites-enabled/default
 
 # Restart nginx to apply conf changes
 service nginx restart
+service php5-fpm restart

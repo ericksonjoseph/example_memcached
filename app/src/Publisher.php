@@ -4,7 +4,7 @@ require APP_ROOT . 'src/Object.php';
 
 abstract class Publisher extends Object {
 
-    const DELAY = 1000000;
+    const DELAY = 0;
 
     public $type = 'publisher';
 
