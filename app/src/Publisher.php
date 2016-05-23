@@ -10,9 +10,7 @@ abstract class Publisher extends Object {
 
     public function enqueue(&$queue, array &$data)
     {
-        $dte = new \DateTime();
-        $ts = $dte->getTimestamp();
-        $id = uniqid($ts, true);
+        $id = $this->createUniqueID();
         $this->log($id, "$this->name.$this->type.assigned_ids.log");
         $data['_id'] = $id;
         $data = json_encode($data);

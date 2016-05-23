@@ -6,6 +6,27 @@ class Object {
 
     private static $log_dir;
 
+    /**
+     * Used to uniquely identity an instance of this class
+     * 
+     * @var string
+     * @access protected
+     */
+    protected $id;
+
+    public function __construct()
+    {
+        $this->id = "ID" . $this->createUniqueID();
+        $this->log($this->id, $this->name . '.' . $this->type .'.id.log');
+    }
+
+    protected function createUniqueID()
+    {
+        $dte = new \DateTime();
+        $ts = $dte->getTimestamp();
+        return uniqid($ts, true);
+    }
+
     protected function debug($message)
     {
         echo $this->formatMessage($message);
@@ -40,7 +61,7 @@ class Object {
         if (!$this->isValid() || !is_string($message)){
             throw \RuntimeException('Please provide a proper name & type & message');
         }
-        return "$this->name.$this->type: $message" . PHP_EOL;
+        return "$this->name.$this->type: $this->id $message" . PHP_EOL;
     }
 
     private function setLogDir()

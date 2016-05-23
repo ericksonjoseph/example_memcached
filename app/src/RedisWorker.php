@@ -8,6 +8,7 @@ class RedisWorker extends Worker {
 
     public function __construct()
     {
+        parent::__construct();
         $this->setupRedisDriver();
     }
 

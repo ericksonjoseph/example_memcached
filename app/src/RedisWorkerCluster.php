@@ -6,6 +6,7 @@ class RedisWorkerCluster extends RedisWorker {
 
     public function __construct()
     {
+        parent::__construct();
         $this->setupRedisDriver();
     }
 
